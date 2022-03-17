@@ -1,0 +1,131 @@
+* {
+  font-family: "Fontdiner Swanky", cursive;
+  color: rgb(37, 212, 37);
+  padding: 0;
+  margin: 0;
+}
+
+h1,
+h2,
+h3 {
+  cursor: default;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  background-image: url("https://wallpaperaccess.com/full/265214.jpg");
+  background-color: #000000;
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.page-title {
+  width: 100px;
+  position: absolute;
+  font-size: 6vh;
+  writing-mode: vertical-lr;
+  text-orientation: upright;
+    
+  align-self: center;
+  margin-left: 20px;
+}
+
+.page-title:after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  filter: blur(15px);
+}
+
+.page-logo {
+  height: 6vh;
+  width: 30vh;
+  position: absolute;
+  top: 2vh;
+  right: 2vh;
+}
+
+.alura-logo {
+  width: 7vh;
+  height: 4vh;
+  position: absolute;
+  top: 9vh;
+  right: 2vh;
+}
+
+.container {
+  width: 92vh;
+  text-align: center;
+  padding: 20px;
+  align-self: center;
+  margin-left: 40%;
+}
+
+#message {
+  font-size: 6vh;
+}
+
+#cheat {
+  font-size: 3vh;
+}
+
+#value {
+  width: 100%;
+  max-width: 30vh;
+  height: 8vh;
+  text-align: center;
+  font-size: 4vh;
+  background-color: transparent;
+  border-radius: 10px;
+  border: 5px solid rgb(37, 212, 37);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+button {
+  width: 100%;
+  font-size: 3vh;
+  color: #fff;
+  text-transform: uppercase;
+  padding: 5px;
+  background: linear-gradient(to bottom, rgb(37, 212, 37), rgb(0, 100, 0));
+  border-color: rgb(37, 212, 37);
+  cursor: pointer;
+}
+
+#guess-button {
+  max-width: 20vh;
+  height: 20vh;
+  border-radius: 50%;
+  margin-left: 15px;
+}
+
+#restart {
+  max-width: 30vh;
+  height: 10vh;
+  border-radius: 10px;
+}
+
+@keyframes blink {
+  from {
+    filter: drop-shadow(0 0 3px rgb(9, 95, 9));
+  }
+  to {
+    filter: drop-shadow(0 0 30px rgb(9, 95, 9));
+  }
+}
+
+.flashable {
+  animation: blink 3s alternate infinite ease-in-out;
+}
