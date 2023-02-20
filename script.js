@@ -1,128 +1,124 @@
-var valor_secreto = null, total_tentativas = null, informou_valor_invalido = null
+const msgDisplay = document.getElementById("message");
+const hintDisplay = document.getElementById("cheat");
+const numberInput = document.getElementById("value");
+const guessBtn = document.getElementById("guess-button");
+const restartBtn = document.getElementById("restart");
+const TOTAL_ATTEMPTS = 3,
+    MIN_NUM = 0,
+    MAX_NUM = 10;
 
-function gerar_numero_aleatorio(min, max) {
+const generateRandomNumber = (min, max) => {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+const isValidGuess = (value) =>
+    !Number.isNaN(value) &&
+    Number.isInteger(value) &&
+    10 >= value &&
+    value >= 0;
+
+const updateDisplay = (msg, hint = "") => {
+    msgDisplay.innerHTML = msg;
+    hintDisplay.innerHTML = hint;
+};
+
+const displayRestartGame = () => {
+    numberInput.value = "";
+    numberInput.hidden = true;
+    guessBtn.hidden = true;
+    restartBtn.hidden = false;
+};
+
+const displayStartGame = () => {
+    updateDisplay(
+        "Você é capaz de adivinhar qual número eu estou pensando?",
+        `Vou facilitar para você, é um número inteiro de ${MIN_NUM} a ${MAX_NUM}.`
+    );
+    numberInput.innerText = "";
+    numberInput.hidden = false;
+    guessBtn.hidden = false;
+    restartBtn.hidden = true;
+};
+
+class Game {
+    constructor() {
+        this.loadInitConfig();
+    }
+
+    loadInitConfig = () => {
+        this.targetNumber = generateRandomNumber(MIN_NUM, MAX_NUM);
+        this.totalAttempts = TOTAL_ATTEMPTS;
+    };
+
+    decreaseAttempt = () => {
+        this.totalAttempts--;
+    };
+
+    hasMoreAttempts = () => this.totalAttempts > 0;
+
+    isHit = (guess) => guess == this.targetNumber;
+
+    checkGuess = () => {
+        let userGuess = parseFloat(numberInput.value);
+
+        if (isValidGuess(userGuess)) {
+            this.isHit(userGuess) ? this.complete() : this.tryAgain();
+        } 
+        else if (Number.isInteger(userGuess)) {
+            updateDisplay(
+                "Não sabe contar até 10 e ainda acha que pode me desafiar?",
+                "Tente contar com os dedos, perdedor(a)!"
+            );
+        } 
+        else if (Number.isNaN(userGuess)) {
+            updateDisplay(
+                `Está com dificuldade para escolher um número?!`,
+                `Vamos lá seu tolo(a), tente novamente!`
+            );
+        } 
+        else {
+            updateDisplay(
+                "Não sabe o que é um número INTEIRO?!",
+                "Achei que fosse mais esperto(a)."
+            );
+        }
+    };
+
+    complete = () => {
+        updateDisplay(
+            "Parabéns, você teve sorte dessa vez, mas certamente não conseguirá na próxima!",
+            "Quer jogar de novo?"
+        );
+        displayRestartGame();
+    };
+
+    tryAgain = () => {
+        this.decreaseAttempt();
+
+        if (!this.hasMoreAttempts()) {
+            updateDisplay(
+                "Você fracassou exatamente como eu havia previsto!<br>" +
+                    `O número secreto é ${this.targetNumber}.`,
+                "Quer tentar me desafiar novamente?"
+            );
+            displayRestartGame();
+        } 
+        else {
+            updateDisplay(
+                "Acho que adivinhação não é o seu ponto forte!",
+                `Vamos lá, você têm mais ${this.totalAttempts} tentativa(s).`
+            );
+        }
+    };
+
+    reset = () => {
+        displayStartGame();
+        this.loadInitConfig();
+    };
 }
 
-
-function reset() {
-    document.getElementById("message").innerHTML = "Você é capaz de adivinhar qual número eu estou pensando?"
-    document.getElementById("cheat").innerHTML = "Vou facilitar para você, é um número inteiro de 0 a 10."
-    document.getElementById("value").innerHTML = ""
-    document.getElementById("value").hidden = false
-    document.getElementById("guess-button").hidden = false
-    document.getElementById("restart").hidden = true
-
-    valor_secreto = gerar_numero_aleatorio(0, 10)
-    total_tentativas = 3
-    informou_valor_invalido = false
-}
-
-
-function habilitar_novo_jogo() {
-    document.getElementById("value").hidden = true
-    document.getElementById("guess-button").hidden = true
-    document.getElementById("restart").hidden = false
-}
-
-
-reset()
-
-document.getElementById("restart").addEventListener("click", evento => {
-    reset()
-})
-
-
-document.getElementById("guess-button").addEventListener("click", evento => {
-    let campo_mensagem = document.getElementById("message")
-    let campo_dica = document.getElementById("cheat")
-
-    let campo_valor = document.getElementById("value")
-    let valor = campo_valor.value
-
-    valor = parseFloat(valor)
-
-    if (informou_valor_invalido && !(valor >= 0 && valor <= 10)) {
-        campo_mensagem.innerHTML = "Errar é humano, persistir no erro é BURRICE!"
-        campo_dica.innerHTML = "Tente de novo, seu incapaz!"
-        return
-    }
-
-    if (Number.isNaN(valor)) {
-        if (total_tentativas == 3) {
-            campo_mensagem.innerHTML = "Está com dificuldade para escolher um número?!<br>" + "Vamos lá seu tolo(a), tente novamente!"
-            campo_dica.innerHTML = "Escolha um número inteiro de 0 a 10."
-        }
-        else {
-            campo_mensagem.innerHTML = "Qual é o problema?<br>Seu intelecto falhou assim de repente?!"
-            campo_dica.innerHTML = "Devo lembrá-lo(a) que é um número inteiro de 0 a 10?"
-        }
-
-        informou_valor_invalido = true
-    }
-    else if (!Number.isInteger(valor)) {
-
-        if (total_tentativas == 3) {
-
-            if (valor < 0 || valor > 10) {
-                campo_mensagem.innerHTML = "Pelo visto ainda não aprendeu a contar até 10 e também não sabe o que é um número inteiro."
-                campo_dica.innerHTML = "Ainda tem coragem para me enfrentar?"
-            }
-            else {
-                campo_mensagem.innerHTML = "Achei que fosse mais esperto(a)."
-                campo_dica.innerHTML = "Você não entendeu quando eu disse que era um número INTEIRO?!"
-            }
-
-        }
-        else {
-            campo_mensagem.innerHTML = "Qual é o problema?<br>Seu intelecto falhou assim de repente?!"
-            campo_dica.innerHTML = "Devo lembrá-lo(a) que é um número INTEIRO de 0 a 10?"
-        }
-
-        informou_valor_invalido = true
-    }
-    else if (Number.isInteger(valor)) {
-
-        if (valor >= 0 && valor <= 10) {
-            informou_valor_invalido = false
-
-            if (valor == valor_secreto) {
-                campo_mensagem.innerHTML = "Parabéns, você teve sorte dessa vez, mas certamente não conseguirá na próxima!"
-                campo_dica.innerHTML = "Quer jogar de novo?"
-
-                habilitar_novo_jogo()
-            }
-            else {
-
-                total_tentativas--;
-
-                if (total_tentativas > 0) {
-                    campo_mensagem.innerHTML = "Acho que adivinhação não é o seu ponto forte!"
-                    campo_dica.innerHTML = "Vamos lá, você têm mais " + total_tentativas + " tentativa(s)."
-
-                }
-                else {
-                    campo_mensagem.innerHTML = "Você fracassou exatamente como eu havia previsto!<br>Para sua infelicidade, eu mentalizei o número " + valor_secreto + "."
-                    campo_dica.innerHTML = "Quer tentar me desafiar novamente?"
-
-                    habilitar_novo_jogo()
-                }
-            }
-        }
-        else if (total_tentativas == 3) {
-            campo_mensagem.innerHTML = "Não sabe contar até 10 e ainda acha que pode me desafiar?"
-            campo_dica.innerHTML = "Tente contar com os dedos, perdedor(a)!"
-            informou_valor_invalido = true
-        }
-        else {
-            campo_mensagem.innerHTML = "Qual é o problema?<br>Seu intelecto falhou assim de repente?!"
-            campo_dica.innerHTML = "Devo lembrá-lo(a) que é um número inteiro de 0 a 10?"
-            informou_valor_invalido = true
-        }
-
-    }
-
-    campo_valor.value = ""
-})
+const game = new Game();
+guessBtn.addEventListener("click", game.checkGuess);
+restartBtn.addEventListener("click", game.reset);
