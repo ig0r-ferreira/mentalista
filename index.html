@@ -1,47 +1,52 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fontdiner+Swanky&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="styles/style.css" />
-    <title>Imersão Dev - Aula 03</title>
-  </head>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Fontdiner+Swanky&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="styles/style.css" />
+        <title>Mentalista - Imersão Dev</title>
+    </head>
 
-  <body>
-    <img
-      src="https://www.alura.com.br/assets/img/imersoes/dev-2021/logo-imersao-mentalista.svg"
-      class="page-logo"
-      alt=""
-    /><br />
-    <h1 class="page-title flashable" data-text="Mentalista">Mentalista</h1>
-    <div class="container">
-      <h1 id="message" class="flashable">
-        Você é capaz de adivinhar qual número eu estou pensando?
-      </h1>
-      <br />
-      <h3 id="cheat" class="flashable">
-        Vou facilitar para você, é um número inteiro de 0 a 10.
-      </h3>
-      <br />
-      <input id="value" type="number" min="0" max="10" class="flashable" />
-      <button id="guess-button" class="flashable">Chutar</button>
-      <br />
-      <button id="restart" class="flashable" hidden>Recomeçar</button>
-    </div>
-    <a href="https://alura.com.br/" target="_blank">
-      <img
-        src="https://www.alura.com.br/assets/img/home/alura-logo.svg"
-        alt=""
-        class="alura-logo"
-      />
-    </a>
-    <script src="script.js"></script>
-  </body>
+    <body>
+        <header>
+            <h1>Mentalista</h1>
+        </header>
+        <main>
+            <div class="container">
+                <div class="text-container">
+                    <p id="main-text"></p>
+                    <p id="hint"></p>
+                </div>
+                <div class="guess-container">
+                    <input
+                        id="guess"
+                        type="number"
+                        min="0"
+                        max="10"
+                        maxlength="2"
+                        class="flashable"
+                        autofocus
+                    />
+                    <button class="game-btn" id="guess-btn" type="button">
+                        Chutar
+                    </button>
+                    <button
+                        class="game-btn"
+                        id="restart-btn"
+                        type="button"
+                        hidden
+                    >
+                        Recomeçar
+                    </button>
+                </div>
+            </div>
+        </main>
+        <script src="script.js"></script>
+    </body>
 </html>

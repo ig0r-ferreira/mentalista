@@ -1,131 +1,117 @@
 * {
-  font-family: "Fontdiner Swanky", cursive;
-  color: rgb(37, 212, 37);
-  padding: 0;
-  margin: 0;
+    font-family: "Fontdiner Swanky", cursive;
+    color: rgb(37, 212, 37);
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background-color: #0c0c0c;
+    padding: 1rem;
+}
+
+header {
+    text-align: center;
+    padding: 2rem 0 1rem;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    color: rebeccapurple;
+    font-size: 2.5rem;
 }
 
 h1,
-h2,
-h3 {
-  cursor: default;
+p {
+    cursor: default;
 }
 
-html,
-body {
-  width: 100%;
-  height: 100%;
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
-body {
-  background-image: url("https://wallpaperaccess.com/full/265214.jpg");
-  background-color: #000000;
-  background-size: cover;
-  background-position: center top;
-  background-repeat: no-repeat;
-
-  display: flex;
-  justify-content: space-between;
+/* Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
 }
 
-.page-title {
-  width: 100px;
-  position: absolute;
-  font-size: 6vh;
-  writing-mode: vertical-lr;
-  text-orientation: upright;
-    
-  align-self: center;
-  margin-left: 20px;
-}
-
-.page-title:after {
-  content: attr(data-text);
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -1;
-  filter: blur(15px);
-}
-
-.page-logo {
-  height: 6vh;
-  width: 30vh;
-  position: absolute;
-  top: 2vh;
-  right: 2vh;
-}
-
-.alura-logo {
-  width: 7vh;
-  height: 4vh;
-  position: absolute;
-  top: 9vh;
-  right: 2vh;
+input:focus {
+    outline: 0;
 }
 
 .container {
-  width: 92vh;
-  text-align: center;
-  padding: 20px;
-  align-self: center;
-  margin-left: 40%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    max-width: 50rem;
 }
 
-#message {
-  font-size: 6vh;
+.text-container p {
+    padding: 1rem;
 }
 
-#cheat {
-  font-size: 3vh;
+#main-text {
+    font-size: 2rem;
 }
 
-#value {
-  width: 100%;
-  max-width: 30vh;
-  height: 8vh;
-  text-align: center;
-  font-size: 4vh;
-  background-color: transparent;
-  border-radius: 10px;
-  border: 5px solid rgb(37, 212, 37);
-  margin-left: auto;
-  margin-right: auto;
+#hint {
+    color: silver;
+    font-size: 1.5rem;
 }
 
-button {
-  width: 100%;
-  font-size: 3vh;
-  color: #fff;
-  text-transform: uppercase;
-  padding: 5px;
-  background: linear-gradient(to bottom, rgb(37, 212, 37), rgb(0, 100, 0));
-  border-color: rgb(37, 212, 37);
-  cursor: pointer;
+#hint:empty {
+    display: none;
 }
 
-#guess-button {
-  max-width: 20vh;
-  height: 20vh;
-  border-radius: 50%;
-  margin-left: 15px;
+.guess-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
 }
 
-#restart {
-  max-width: 30vh;
-  height: 10vh;
-  border-radius: 10px;
+.game-btn:active {
+    border-style: inset;
+    transform: translate(2px, 2px);
 }
 
-@keyframes blink {
-  from {
-    filter: drop-shadow(0 0 3px rgb(9, 95, 9));
-  }
-  to {
-    filter: drop-shadow(0 0 30px rgb(9, 95, 9));
-  }
+#guess {
+    width: 12rem;
+    color: #0c0c0c;
+    background-color: rgb(37, 212, 37);
+    text-align: center;
+    font-size: 2rem;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 0 32px rgb(37, 212, 37);
 }
 
-.flashable {
-  animation: blink 3s alternate infinite ease-in-out;
+.game-btn {
+    cursor: pointer;
+    width: 12rem;
+    color: white;
+    background-color: indigo;
+    text-transform: uppercase;
+    font-size: 1.25rem;
+    padding: 0.75rem;
+    border: 6px outset rebeccapurple;
+    border-radius: 10px;
+    box-shadow: 0 0 64px indigo;
+}
+
+input:not([hidden]) ~ button {
+    margin: 1.25rem;
 }

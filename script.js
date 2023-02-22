@@ -1,8 +1,8 @@
-const msgDisplay = document.getElementById("message");
-const hintDisplay = document.getElementById("cheat");
-const numberInput = document.getElementById("value");
-const guessBtn = document.getElementById("guess-button");
-const restartBtn = document.getElementById("restart");
+const msgDisplay = document.getElementById("main-text");
+const hintDisplay = document.getElementById("hint");
+const numberInput = document.getElementById("guess");
+const guessBtn = document.getElementById("guess-btn");
+const restartBtn = document.getElementById("restart-btn");
 const TOTAL_ATTEMPTS = 3,
     MIN_NUM = 0,
     MAX_NUM = 10;
@@ -33,9 +33,10 @@ const displayRestartGame = () => {
 
 const displayStartGame = () => {
     updateDisplay(
-        "Você é capaz de adivinhar qual número eu estou pensando?",
-        `Vou facilitar para você, é um número inteiro de ${MIN_NUM} a ${MAX_NUM}.`
+        `Estou pensando em um número de ${MIN_NUM} a ${MAX_NUM}, 
+        você é capaz de adivinhar qual é?`
     );
+
     numberInput.innerText = "";
     numberInput.hidden = false;
     guessBtn.hidden = false;
@@ -50,6 +51,7 @@ class Game {
     loadInitConfig = () => {
         this.targetNumber = generateRandomNumber(MIN_NUM, MAX_NUM);
         this.totalAttempts = TOTAL_ATTEMPTS;
+        displayStartGame();
     };
 
     decreaseAttempt = () => {
