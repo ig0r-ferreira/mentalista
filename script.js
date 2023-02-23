@@ -24,8 +24,12 @@ const updateDisplay = (msg, hint = "") => {
     hintDisplay.innerHTML = hint;
 };
 
+const clearElementContent = (field) => {
+    field.value = "";
+};
+
 const displayRestartGame = () => {
-    numberInput.value = "";
+    clearElementContent(numberInput);
     numberInput.hidden = true;
     guessBtn.hidden = true;
     restartBtn.hidden = false;
@@ -37,7 +41,7 @@ const displayStartGame = () => {
         você é capaz de adivinhar qual é?`
     );
 
-    numberInput.innerText = "";
+    clearElementContent(numberInput);
     numberInput.hidden = false;
     guessBtn.hidden = false;
     restartBtn.hidden = true;
@@ -64,6 +68,8 @@ class Game {
 
     checkGuess = () => {
         let userGuess = parseFloat(numberInput.value);
+
+        clearElementContent(numberInput);
 
         if (isValidGuess(userGuess)) {
             this.isHit(userGuess) ? this.complete() : this.tryAgain();
