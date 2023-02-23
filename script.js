@@ -43,8 +43,18 @@ const displayStartGame = () => {
 
     clearElementContent(numberInput);
     numberInput.hidden = false;
+    numberInput.focus();
     guessBtn.hidden = false;
     restartBtn.hidden = true;
+};
+
+const pressVisibleButton = () => {
+    let btn = document.querySelector("button:not([hidden])");
+    btn.classList.toggle("pressed");
+    btn.click();
+    setTimeout(() => {
+        btn.classList.toggle("pressed");
+    }, 100);
 };
 
 class Game {
@@ -70,6 +80,7 @@ class Game {
         let userGuess = parseFloat(numberInput.value);
 
         clearElementContent(numberInput);
+        numberInput.focus();
 
         if (isValidGuess(userGuess)) {
             this.isHit(userGuess) ? this.complete() : this.tryAgain();
@@ -128,5 +139,10 @@ class Game {
 }
 
 const game = new Game();
+window.addEventListener("keypress", (event) => {
+    if (event.key === "Enter") {
+        pressVisibleButton();
+    }
+});
 guessBtn.addEventListener("click", game.checkGuess);
 restartBtn.addEventListener("click", game.reset);

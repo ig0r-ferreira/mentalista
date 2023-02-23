@@ -82,11 +82,6 @@ input:focus {
     padding: 1.5rem;
 }
 
-.game-btn:active {
-    border-style: inset;
-    transform: translate(2px, 2px);
-}
-
 #guess {
     width: 12rem;
     color: #0c0c0c;
@@ -110,6 +105,12 @@ input:focus {
     border: 6px outset rebeccapurple;
     border-radius: 10px;
     box-shadow: 0 0 64px indigo;
+}
+
+.game-btn:active,
+.pressed {
+    border-style: inset;
+    transform: translate(2px, 2px);
 }
 
 input:not([hidden]) ~ button {
