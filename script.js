@@ -65,6 +65,7 @@ class Game {
     loadInitConfig = () => {
         this.targetNumber = generateRandomNumber(MIN_NUM, MAX_NUM);
         this.totalAttempts = TOTAL_ATTEMPTS;
+        this.guesses = [];
         displayStartGame();
     };
 
@@ -83,7 +84,16 @@ class Game {
         numberInput.focus();
 
         if (isValidGuess(userGuess)) {
-            this.isHit(userGuess) ? this.complete() : this.tryAgain();
+            if (this.guesses.includes(userGuess)) {
+                updateDisplay(
+                    "Errar é humano, persistir no erro é BURRICE!",
+                    "Tente um número diferente, seu incapaz."
+                );
+            } 
+            else {
+                this.guesses.push(userGuess);
+                this.isHit(userGuess) ? this.complete() : this.tryAgain();
+            }
         } 
         else if (Number.isInteger(userGuess)) {
             updateDisplay(
