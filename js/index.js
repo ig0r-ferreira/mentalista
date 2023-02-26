@@ -47,10 +47,12 @@ class Game {
         restartBtn.hidden = true;
         updateElementContent(
             mainText,
-            `Estou pensando em um número de ${MIN_NUM} a ${MAX_NUM}, 
+            `Mentalizei um número de ${MIN_NUM} a ${MAX_NUM}, 
             você é capaz de adivinhar qual é?`
         );
-        updateElementContent(hintText, "");
+        updateElementContent(
+            hintText, `Você tem ${this.remainingAttempts} tentativas.`
+        );
     };
 
     decreaseAttempt() {
@@ -61,7 +63,9 @@ class Game {
         this.previousGuesses.push(guess);
     }
 
-    hasMoreAttempts() { return this.remainingAttempts > 0; }
+    hasMoreAttempts() { 
+        return this.remainingAttempts > 0; 
+    }
 
     validateGuess(guess) {
         let valid = false;
@@ -71,7 +75,7 @@ class Game {
                 mainText, "Está com dificuldade para escolher um número?!"
             );
             updateElementContent(
-                hintText, "Vamos lá seu tolo(a), tente novamente!"
+                hintText, "Posso imaginar seus neurônios fritando."
             );
         }
         else if (!Number.isInteger(guess)) {
@@ -79,17 +83,16 @@ class Game {
                 mainText, "Não sabe o que é um número INTEIRO?!"
             );
             updateElementContent(
-                hintText, "Achei que fosse mais esperto(a)."
+                hintText, "Engraçado você desconhecer conjuntos númericos."
             );
         }
         else if (!inRange(guess, MIN_NUM, MAX_NUM)) {
             updateElementContent(
                 mainText,
-                `Não sabe contar até ${MAX_NUM} e 
-                ainda acha que pode me desafiar?`
+                `Não sabe contar até ${MAX_NUM} e ainda quer me desafiar?`
             );
             updateElementContent(
-                hintText, "Tente contar com os dedos, perdedor(a)!"
+                hintText, "Use os dedos se estiver com dificuldade."
             );
         }
         else if (this.previousGuesses.includes(guess)) {
@@ -97,7 +100,7 @@ class Game {
                 mainText, "Errar é humano, persistir no erro é BURRICE!"
             );
             updateElementContent(
-                hintText, "Tente um número diferente, seu incapaz."
+                hintText, "Tente outro número, gênio."
             );
         }
         else {
@@ -113,7 +116,7 @@ class Game {
 
     nextAttempt() {
         updateElementContent(
-            mainText, "Acho que adivinhação não é o seu ponto forte!"
+            mainText, "Palpite errado, você está longe de ser um adversário digno!"
         );
         updateElementContent(
             hintText,
@@ -124,17 +127,15 @@ class Game {
     finish() {
 
         let msg = this.remainingAttempts == 0
-            ? `Você fracassou exatamente como eu havia previsto!.
-            O número secreto é ${this.targetNumber}.`
-            : "Parabéns, você teve sorte dessa vez, " +
-            "mas certamente não conseguirá na próxima!";
+            ? `Seu fracasso era previsível. O número secreto é ${this.targetNumber}.`
+            : "O quê?! Você acertou?! Óbvio que foi apenas um palpite de sorte.";
 
         clearField(guessInput);
         guessInput.hidden = true;
         guessBtn.hidden = true;
         restartBtn.hidden = false;
         updateElementContent(mainText, msg);
-        updateElementContent(hintText, "Quer tentar me desafiar novamente?");
+        updateElementContent(hintText, "O botão abaixo é autoexplicativo.");
     }
 
     restart() {
