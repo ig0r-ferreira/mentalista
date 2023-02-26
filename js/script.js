@@ -1,152 +1,147 @@
-const msgDisplay = document.getElementById("main-text");
-const hintDisplay = document.getElementById("hint");
-const numberInput = document.getElementById("guess");
+const mainText = document.getElementById("main-text");
+const hintText = document.getElementById("hint");
+const guessInput = document.getElementById("guess");
 const guessBtn = document.getElementById("guess-btn");
 const restartBtn = document.getElementById("restart-btn");
-const TOTAL_ATTEMPTS = 3,
-    MIN_NUM = 0,
-    MAX_NUM = 10;
+const TOTAL_ATTEMPTS = 3, MIN_NUM = 0, MAX_NUM = 10;
 
-const generateRandomNumber = (min, max) => {
-    min = Math.ceil(min);
-    max = Math.floor(max);
+function generateRandomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-const isValidGuess = (value) =>
-    !Number.isNaN(value) &&
-    Number.isInteger(value) &&
-    10 >= value &&
-    value >= 0;
+function inRange(value, min, max) {
+    return value >= min && value <= max;
+}
 
-const updateDisplay = (msg, hint = "") => {
-    msgDisplay.innerHTML = msg;
-    hintDisplay.innerHTML = hint;
+function updateElementContent(element, content) {
+    element.textContent = content;
 };
 
-const clearElementContent = (field) => {
-    field.value = "";
+function clearField(element) {
+    element.value = "";
 };
 
-const displayRestartGame = () => {
-    clearElementContent(numberInput);
-    numberInput.hidden = true;
-    guessBtn.hidden = true;
-    restartBtn.hidden = false;
-};
-
-const displayStartGame = () => {
-    updateDisplay(
-        `Estou pensando em um número de ${MIN_NUM} a ${MAX_NUM}, 
-        você é capaz de adivinhar qual é?`
-    );
-
-    clearElementContent(numberInput);
-    numberInput.hidden = false;
-    numberInput.focus();
-    guessBtn.hidden = false;
-    restartBtn.hidden = true;
-};
-
-const pressVisibleButton = () => {
-    let btn = document.querySelector("button:not([hidden])");
-    btn.classList.toggle("pressed");
-    btn.click();
+function pressVisibleButton() {
+    let button = document.querySelector("button:not([hidden])");
+    button.classList.toggle("pressed");
+    button.click();
     setTimeout(() => {
-        btn.classList.toggle("pressed");
+        button.classList.toggle("pressed");
     }, 100);
 };
 
+
 class Game {
     constructor() {
-        this.loadInitConfig();
+        this.init();
     }
 
-    loadInitConfig = () => {
+    init() {
         this.targetNumber = generateRandomNumber(MIN_NUM, MAX_NUM);
-        this.totalAttempts = TOTAL_ATTEMPTS;
-        this.guesses = [];
-        displayStartGame();
-    };
-
-    decreaseAttempt = () => {
-        this.totalAttempts--;
-    };
-
-    hasMoreAttempts = () => this.totalAttempts > 0;
-
-    isHit = (guess) => guess == this.targetNumber;
-
-    checkGuess = () => {
-        let userGuess = parseFloat(numberInput.value);
-
-        clearElementContent(numberInput);
-        numberInput.focus();
-
-        if (isValidGuess(userGuess)) {
-            if (this.guesses.includes(userGuess)) {
-                updateDisplay(
-                    "Errar é humano, persistir no erro é BURRICE!",
-                    "Tente um número diferente, seu incapaz."
-                );
-            } 
-            else {
-                this.guesses.push(userGuess);
-                this.isHit(userGuess) ? this.complete() : this.tryAgain();
-            }
-        } 
-        else if (Number.isInteger(userGuess)) {
-            updateDisplay(
-                "Não sabe contar até 10 e ainda acha que pode me desafiar?",
-                "Tente contar com os dedos, perdedor(a)!"
-            );
-        } 
-        else if (Number.isNaN(userGuess)) {
-            updateDisplay(
-                `Está com dificuldade para escolher um número?!`,
-                `Vamos lá seu tolo(a), tente novamente!`
-            );
-        } 
-        else {
-            updateDisplay(
-                "Não sabe o que é um número INTEIRO?!",
-                "Achei que fosse mais esperto(a)."
-            );
-        }
-    };
-
-    complete = () => {
-        updateDisplay(
-            "Parabéns, você teve sorte dessa vez, mas certamente não conseguirá na próxima!",
-            "Quer jogar de novo?"
+        this.remainingAttempts = TOTAL_ATTEMPTS;
+        this.previousGuesses = [];
+        clearField(guessInput);
+        guessInput.hidden = false;
+        guessInput.focus();
+        guessBtn.hidden = false;
+        restartBtn.hidden = true;
+        updateElementContent(
+            mainText,
+            `Estou pensando em um número de ${MIN_NUM} a ${MAX_NUM}, 
+            você é capaz de adivinhar qual é?`
         );
-        displayRestartGame();
+        updateElementContent(hintText, "");
     };
 
-    tryAgain = () => {
-        this.decreaseAttempt();
+    decreaseAttempt() {
+        this.remainingAttempts--;
+    };
 
-        if (!this.hasMoreAttempts()) {
-            updateDisplay(
-                "Você fracassou exatamente como eu havia previsto!<br>" +
-                    `O número secreto é ${this.targetNumber}.`,
-                "Quer tentar me desafiar novamente?"
+    registerGuess(guess) {
+        this.previousGuesses.push(guess);
+    }
+
+    hasMoreAttempts() { return this.remainingAttempts > 0; }
+
+    validateGuess(guess) {
+        let valid = false;
+
+        if (Number.isNaN(guess)) {
+            updateElementContent(
+                mainText, "Está com dificuldade para escolher um número?!"
             );
-            displayRestartGame();
-        } 
-        else {
-            updateDisplay(
-                "Acho que adivinhação não é o seu ponto forte!",
-                `Vamos lá, você têm mais ${this.totalAttempts} tentativa(s).`
+            updateElementContent(
+                hintText, "Vamos lá seu tolo(a), tente novamente!"
             );
         }
-    };
+        else if (!Number.isInteger(guess)) {
+            updateElementContent(
+                mainText, "Não sabe o que é um número INTEIRO?!"
+            );
+            updateElementContent(
+                hintText, "Achei que fosse mais esperto(a)."
+            );
+        }
+        else if (!inRange(guess, MIN_NUM, MAX_NUM)) {
+            updateElementContent(
+                mainText,
+                `Não sabe contar até ${MAX_NUM} e 
+                ainda acha que pode me desafiar?`
+            );
+            updateElementContent(
+                hintText, "Tente contar com os dedos, perdedor(a)!"
+            );
+        }
+        else if (this.previousGuesses.includes(guess)) {
+            updateElementContent(
+                mainText, "Errar é humano, persistir no erro é BURRICE!"
+            );
+            updateElementContent(
+                hintText, "Tente um número diferente, seu incapaz."
+            );
+        }
+        else {
+            valid = true;
+        }
 
-    reset = () => {
-        displayStartGame();
-        this.loadInitConfig();
-    };
+        return valid
+    }
+
+    checkHit(guess) {
+        return guess === this.targetNumber;
+    }
+
+    nextAttempt() {
+        updateElementContent(
+            mainText, "Acho que adivinhação não é o seu ponto forte!"
+        );
+        updateElementContent(
+            hintText,
+            `Vamos lá, você têm mais ${this.remainingAttempts} tentativa(s).`
+        );
+    }
+
+    finish() {
+
+        let msg = this.remainingAttempts == 0
+            ? `Você fracassou exatamente como eu havia previsto!.
+            O número secreto é ${this.targetNumber}.`
+            : "Parabéns, você teve sorte dessa vez, " +
+            "mas certamente não conseguirá na próxima!";
+
+        clearField(guessInput);
+        guessInput.hidden = true;
+        guessBtn.hidden = true;
+        restartBtn.hidden = false;
+        updateElementContent(mainText, msg);
+        updateElementContent(hintText, "Quer tentar me desafiar novamente?");
+    }
+
+    restart() {
+        this.init();
+    }
 }
+
 
 const game = new Game();
 window.addEventListener("keypress", (event) => {
@@ -154,5 +149,24 @@ window.addEventListener("keypress", (event) => {
         pressVisibleButton();
     }
 });
-guessBtn.addEventListener("click", game.checkGuess);
-restartBtn.addEventListener("click", game.reset);
+guessBtn.addEventListener("click", () => {
+    let userGuess = parseFloat(guessInput.value);
+    clearField(guessInput);
+    guessInput.focus();
+
+    if (!game.validateGuess(userGuess)) {
+        return;
+    }
+    game.registerGuess(userGuess);
+
+    if (game.checkHit(userGuess)) {
+        game.finish();
+        return
+    }
+
+    game.decreaseAttempt();
+    game.hasMoreAttempts() ? game.nextAttempt() : game.finish();
+});
+restartBtn.addEventListener("click", () => {
+    game.restart();
+});
