@@ -135,7 +135,7 @@ footer .social-media-icon {
 
 @media (min-width: 992px) {
     body {
-        background-image: url("/images/background.jpg");
+        background-image: url("../images/background.jpg");
         background-size: cover;
         background-repeat: no-repeat;
         display: grid;
