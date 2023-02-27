@@ -10,6 +10,8 @@ body {
     min-height: 100vh;
     background-color: #0c0c0c;
     padding: 1rem;
+    display: flex;
+    flex-direction: column;
 }
 
 header {
@@ -18,9 +20,9 @@ header {
 }
 
 main {
+    flex-grow: 1;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: center;
 }
 
 h1 {
@@ -54,7 +56,7 @@ input:focus {
     text-align: center;
     display: flex;
     flex-direction: column;
-    max-width: 50rem;
+    max-width: 40rem;
 }
 
 .text-container p {
@@ -96,7 +98,7 @@ input:focus {
 
 .game-btn {
     cursor: pointer;
-    width: 12rem;
+    min-width: 12rem;
     color: white;
     background-color: indigo;
     text-transform: uppercase;
@@ -115,4 +117,36 @@ input:focus {
 
 input:not([hidden]) ~ button {
     margin: 1.25rem;
+}
+
+@media (min-width: 992px) {    
+    body {
+        background-image: url('/images/background.jpg');      
+        background-size: cover;
+        background-repeat: no-repeat;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+    }
+        
+    header {
+        padding: 0;
+        writing-mode: vertical-lr;
+        text-orientation: upright;
+        position: relative;
+        grid-column: 1;
+    }
+
+    main {
+        grid-column: 2 / 6;
+    }
+
+    .container {
+        align-self: center;
+        margin-left: 20vw;
+        margin-right: 2vw;
+    }
+
+    #main-text {
+        font-size: 2.8rem;
+    }
 }
