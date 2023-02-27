@@ -2,15 +2,12 @@
 <html lang="pt-BR">
     <head>
         <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Fontdiner+Swanky&display=swap"
-            rel="stylesheet"
-        />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fontdiner+Swanky&display=swap" />
         <link rel="stylesheet" href="css/style.css" />
-        <title>Mentalista - Imersão Dev</title>
+        <title>Mentalista</title>
     </head>
 
     <body>
@@ -24,27 +21,21 @@
                     <p id="hint"></p>
                 </div>
                 <div class="guess-container">
-                    <input
-                        id="guess"
-                        type="number"
-                        min="0"
-                        max="10"
-                        maxlength="2"
-                    />
+                    <input id="guess" type="number" min="0" max="10" maxlength="2" />
                     <button class="game-btn" id="guess-btn" type="button">
                         Chutar
                     </button>
-                    <button
-                        class="game-btn"
-                        id="restart-btn"
-                        type="button"
-                        hidden
-                    >
+                    <button class="game-btn" id="restart-btn" type="button" hidden>
                         Jogar Novamente
                     </button>
                 </div>
             </div>
         </main>
+        <footer>
+            <a href="https://github.com/ig0r-ferreira">
+                <img src="images/github-mark-white.svg" alt="Ícone do GitHub" class="social-media-icon">
+            </a>
+        </footer>
         <script src="js/index.js"></script>
     </body>
 </html>
