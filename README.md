@@ -1,9 +1,8 @@
 <h1 align="center">Mentalista</h1>
 <div align="center">
-    <p>Encare o charada e tente adivinhar o número entre 0 a 10 que ele tem em mente.</p>
-    <br>
     <img src="images/screenshots/desktop-version.png" alt="Imagem da versão desktop do jogo" width="800px">
     <br><br>
+    <p>Encare o charada e tente adivinhar o número entre 0 a 10 que ele tem em mente.</p>
     <a href="https://ig0r-ferreira.github.io/mentalista/">Clique aqui para jogar</a>
 </div>
 
